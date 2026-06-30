@@ -18,7 +18,7 @@ export const Route = createFileRoute("/api/chat")({
           model: gateway(CHAT_MODEL),
           system:
             "You are ProfessionalAI, a workplace assistant for professionals. Be concise, practical, and structured. Use Markdown (headings, bullets, tables) when it improves clarity. When drafting documents, give a complete deliverable rather than describing one.",
-          messages: convertToModelMessages(messages),
+          messages: await convertToModelMessages(messages),
         });
         return result.toUIMessageStreamResponse({ originalMessages: messages });
       },
