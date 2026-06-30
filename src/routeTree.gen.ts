@@ -12,6 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as AppIndexRouteImport } from './routes/_app.index'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as AppWorkflowRouteImport } from './routes/_app.workflow'
+import { Route as AppResponsibleRouteImport } from './routes/_app.responsible'
 import { Route as AppResearchRouteImport } from './routes/_app.research'
 import { Route as AppPlannerRouteImport } from './routes/_app.planner'
 import { Route as AppMeetingsRouteImport } from './routes/_app.meetings'
@@ -31,6 +33,16 @@ const ApiChatRoute = ApiChatRouteImport.update({
   id: '/api/chat',
   path: '/api/chat',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AppWorkflowRoute = AppWorkflowRouteImport.update({
+  id: '/workflow',
+  path: '/workflow',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppResponsibleRoute = AppResponsibleRouteImport.update({
+  id: '/responsible',
+  path: '/responsible',
+  getParentRoute: () => AppRoute,
 } as any)
 const AppResearchRoute = AppResearchRouteImport.update({
   id: '/research',
@@ -65,6 +77,8 @@ export interface FileRoutesByFullPath {
   '/meetings': typeof AppMeetingsRoute
   '/planner': typeof AppPlannerRoute
   '/research': typeof AppResearchRoute
+  '/responsible': typeof AppResponsibleRoute
+  '/workflow': typeof AppWorkflowRoute
   '/api/chat': typeof ApiChatRoute
 }
 export interface FileRoutesByTo {
@@ -73,6 +87,8 @@ export interface FileRoutesByTo {
   '/meetings': typeof AppMeetingsRoute
   '/planner': typeof AppPlannerRoute
   '/research': typeof AppResearchRoute
+  '/responsible': typeof AppResponsibleRoute
+  '/workflow': typeof AppWorkflowRoute
   '/api/chat': typeof ApiChatRoute
   '/': typeof AppIndexRoute
 }
@@ -84,6 +100,8 @@ export interface FileRoutesById {
   '/_app/meetings': typeof AppMeetingsRoute
   '/_app/planner': typeof AppPlannerRoute
   '/_app/research': typeof AppResearchRoute
+  '/_app/responsible': typeof AppResponsibleRoute
+  '/_app/workflow': typeof AppWorkflowRoute
   '/api/chat': typeof ApiChatRoute
   '/_app/': typeof AppIndexRoute
 }
@@ -96,6 +114,8 @@ export interface FileRouteTypes {
     | '/meetings'
     | '/planner'
     | '/research'
+    | '/responsible'
+    | '/workflow'
     | '/api/chat'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -104,6 +124,8 @@ export interface FileRouteTypes {
     | '/meetings'
     | '/planner'
     | '/research'
+    | '/responsible'
+    | '/workflow'
     | '/api/chat'
     | '/'
   id:
@@ -114,6 +136,8 @@ export interface FileRouteTypes {
     | '/_app/meetings'
     | '/_app/planner'
     | '/_app/research'
+    | '/_app/responsible'
+    | '/_app/workflow'
     | '/api/chat'
     | '/_app/'
   fileRoutesById: FileRoutesById
@@ -145,6 +169,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/api/chat'
       preLoaderRoute: typeof ApiChatRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_app/workflow': {
+      id: '/_app/workflow'
+      path: '/workflow'
+      fullPath: '/workflow'
+      preLoaderRoute: typeof AppWorkflowRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/responsible': {
+      id: '/_app/responsible'
+      path: '/responsible'
+      fullPath: '/responsible'
+      preLoaderRoute: typeof AppResponsibleRouteImport
+      parentRoute: typeof AppRoute
     }
     '/_app/research': {
       id: '/_app/research'
@@ -190,6 +228,8 @@ interface AppRouteChildren {
   AppMeetingsRoute: typeof AppMeetingsRoute
   AppPlannerRoute: typeof AppPlannerRoute
   AppResearchRoute: typeof AppResearchRoute
+  AppResponsibleRoute: typeof AppResponsibleRoute
+  AppWorkflowRoute: typeof AppWorkflowRoute
   AppIndexRoute: typeof AppIndexRoute
 }
 
@@ -199,6 +239,8 @@ const AppRouteChildren: AppRouteChildren = {
   AppMeetingsRoute: AppMeetingsRoute,
   AppPlannerRoute: AppPlannerRoute,
   AppResearchRoute: AppResearchRoute,
+  AppResponsibleRoute: AppResponsibleRoute,
+  AppWorkflowRoute: AppWorkflowRoute,
   AppIndexRoute: AppIndexRoute,
 }
 
@@ -211,13 +253,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
