@@ -71,8 +71,7 @@ function ChatPage() {
           {messages.map((m) => (
             <Message key={m.id} from={m.role}>
               <MessageContent
-                variant={m.role === "user" ? "contained" : "flat"}
-                className={m.role === "user" ? "" : "bg-transparent"}
+                className={m.role === "user" ? "" : "bg-transparent group-[.is-assistant]:px-0"}
               >
                 {m.parts.map((part, i) => {
                   if (part.type === "text") {
