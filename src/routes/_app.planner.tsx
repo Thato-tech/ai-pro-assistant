@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/select";
 import { MarkdownResult, PageHeader } from "@/components/tool-result";
 import { planSchedule } from "@/lib/ai.functions";
+import { useIndustry } from "@/lib/industry";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_app/planner")({
@@ -32,6 +33,7 @@ export const Route = createFileRoute("/_app/planner")({
 
 function PlannerPage() {
   const run = useServerFn(planSchedule);
+  const { industry } = useIndustry();
   const [horizon, setHorizon] = useState<"day" | "week" | "month">("day");
   const [tasks, setTasks] = useState("");
   const [loading, setLoading] = useState(false);
@@ -43,7 +45,7 @@ function PlannerPage() {
     setLoading(true);
     setResult("");
     try {
-      const r = await run({ data: { horizon, tasks: tasks.trim() } });
+      const r = await run({ data: { horizon, tasks: tasks.trim(), industry } });
       setResult(r.text);
     } catch (err) {
       console.error(err);

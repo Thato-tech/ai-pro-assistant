@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { MarkdownResult, PageHeader } from "@/components/tool-result";
 import { summarizeMeeting } from "@/lib/ai.functions";
+import { useIndustry } from "@/lib/industry";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_app/meetings")({
@@ -25,6 +26,7 @@ export const Route = createFileRoute("/_app/meetings")({
 
 function MeetingsPage() {
   const run = useServerFn(summarizeMeeting);
+  const { industry } = useIndustry();
   const [notes, setNotes] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState("");
@@ -38,7 +40,7 @@ function MeetingsPage() {
     setLoading(true);
     setResult("");
     try {
-      const r = await run({ data: { notes: notes.trim() } });
+      const r = await run({ data: { notes: notes.trim(), industry } });
       setResult(r.text);
     } catch (err) {
       console.error(err);

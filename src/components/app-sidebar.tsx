@@ -7,8 +7,11 @@ import {
   Calendar,
   Search,
   Sparkles,
+  Zap,
+  ShieldCheck,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { IndustrySelector } from "@/components/industry-selector";
 
 type NavItem = {
   to: string;
@@ -24,6 +27,11 @@ export const navItems: NavItem[] = [
   { to: "/meetings", label: "Meeting Notes", icon: FileText },
   { to: "/planner", label: "Task Planner", icon: Calendar },
   { to: "/research", label: "Research", icon: Search },
+  { to: "/workflow", label: "Workflow", icon: Zap },
+];
+
+const footerItems: NavItem[] = [
+  { to: "/responsible", label: "Responsible AI", icon: ShieldCheck },
 ];
 
 export function AppSidebar() {
@@ -38,14 +46,27 @@ export function AppSidebar() {
           <div className="text-[11px] text-muted-foreground">Workplace assistant</div>
         </div>
       </div>
-      <nav className="px-3 mt-2 flex-1 space-y-0.5">
+
+      <div className="px-3 mt-1 mb-2">
+        <IndustrySelector />
+      </div>
+
+      <nav className="px-3 mt-1 flex-1 space-y-0.5 overflow-y-auto">
         {navItems.map((item) => (
           <SidebarLink key={item.to} {...item} />
         ))}
+        <div className="mt-4 mb-1 px-3 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+          Trust
+        </div>
+        {footerItems.map((item) => (
+          <SidebarLink key={item.to} {...item} />
+        ))}
       </nav>
+
       <div className="p-3 mt-2">
-        <div className="rounded-xl border border-sidebar-border bg-sidebar-accent/50 p-3 text-xs text-muted-foreground">
-          Session-only preview · sign in coming soon
+        <div className="rounded-xl border border-sidebar-border bg-sidebar-accent/50 p-3 text-[11px] text-muted-foreground leading-relaxed">
+          Press <kbd className="rounded bg-muted px-1 py-0.5 font-mono text-[10px]">⌘K</kbd> to open
+          the AI Command Center.
         </div>
       </div>
     </aside>
