@@ -1,3 +1,4 @@
+import { createFileRoute } from '@tanstack/react-router'
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import { MessageSquare, Sparkles } from "lucide-react";
