@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/select";
 import { MarkdownResult, PageHeader } from "@/components/tool-result";
 import { generateEmail } from "@/lib/ai.functions";
+import { useIndustry } from "@/lib/industry";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_app/emails")({
@@ -48,6 +49,7 @@ const AUDIENCES = ["Client", "Manager", "Executive", "Colleague", "Team", "Suppl
 
 function EmailPage() {
   const run = useServerFn(generateEmail);
+  const { industry } = useIndustry();
   const [category, setCategory] = useState("Follow-up");
   const [tone, setTone] = useState("Professional");
   const [audience, setAudience] = useState("Client");
@@ -61,7 +63,7 @@ function EmailPage() {
     setLoading(true);
     setResult("");
     try {
-      const r = await run({ data: { category, tone, audience, context: context.trim() } });
+      const r = await run({ data: { category, tone, audience, context: context.trim(), industry } });
       setResult(r.text);
     } catch (err) {
       console.error(err);

@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { MarkdownResult, PageHeader } from "@/components/tool-result";
 import { runResearch } from "@/lib/ai.functions";
+import { useIndustry } from "@/lib/industry";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_app/research")({
@@ -25,6 +26,7 @@ export const Route = createFileRoute("/_app/research")({
 
 function ResearchPage() {
   const run = useServerFn(runResearch);
+  const { industry } = useIndustry();
   const [topic, setTopic] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState("");
@@ -35,7 +37,7 @@ function ResearchPage() {
     setLoading(true);
     setResult("");
     try {
-      const r = await run({ data: { topic: topic.trim() } });
+      const r = await run({ data: { topic: topic.trim(), industry } });
       setResult(r.text);
     } catch (err) {
       console.error(err);
