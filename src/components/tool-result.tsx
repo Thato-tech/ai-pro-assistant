@@ -2,6 +2,7 @@ import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { AiDisclaimer } from "@/components/ai-disclaimer";
 import { cn } from "@/lib/utils";
 
 export function MarkdownResult({
@@ -27,19 +28,22 @@ export function MarkdownResult({
     );
   }
   return (
-    <div className={cn("relative rounded-xl border border-border bg-card p-5 shadow-sm", className)}>
-      <Button
-        size="sm"
-        variant="ghost"
-        onClick={copy}
-        className="absolute right-3 top-3 h-7 gap-1.5 text-xs"
-      >
-        {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
-        {copied ? "Copied" : "Copy"}
-      </Button>
-      <article className="prose prose-sm max-w-none dark:prose-invert prose-headings:font-display prose-headings:tracking-tight prose-h2:text-base prose-h2:mt-4 prose-h2:mb-2 prose-p:leading-relaxed prose-table:text-sm">
-        <ReactMarkdown>{content}</ReactMarkdown>
-      </article>
+    <div className={cn("space-y-2", className)}>
+      <AiDisclaimer />
+      <div className="relative rounded-xl border border-border bg-card p-5 shadow-sm">
+        <Button
+          size="sm"
+          variant="ghost"
+          onClick={copy}
+          className="absolute right-3 top-3 h-7 gap-1.5 text-xs"
+        >
+          {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
+          {copied ? "Copied" : "Copy"}
+        </Button>
+        <article className="prose prose-sm max-w-none dark:prose-invert prose-headings:font-display prose-headings:tracking-tight prose-h2:text-base prose-h2:mt-4 prose-h2:mb-2 prose-p:leading-relaxed prose-table:text-sm">
+          <ReactMarkdown>{content}</ReactMarkdown>
+        </article>
+      </div>
     </div>
   );
 }
