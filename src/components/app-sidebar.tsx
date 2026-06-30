@@ -10,14 +10,21 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export const navItems = [
+type NavItem = {
+  to: string;
+  label: string;
+  icon: React.ComponentType<{ className?: string }>;
+  exact?: boolean;
+};
+
+export const navItems: NavItem[] = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { to: "/chat", label: "AI Assistant", icon: MessageSquare },
   { to: "/emails", label: "Email Generator", icon: Mail },
   { to: "/meetings", label: "Meeting Notes", icon: FileText },
   { to: "/planner", label: "Task Planner", icon: Calendar },
   { to: "/research", label: "Research", icon: Search },
-] as const;
+];
 
 export function AppSidebar() {
   return (
