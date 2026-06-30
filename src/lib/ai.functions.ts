@@ -1,5 +1,4 @@
 import { createServerFn } from "@tanstack/react-start";
-import { aiRateLimitMiddleware } from "./ai-middleware";
 import { generateText } from "ai";
 import { z } from "zod";
 import { CHAT_MODEL, createLovableAiGatewayProvider } from "./ai-gateway.server";
@@ -36,7 +35,7 @@ const EmailInput = z.object({
   category: z.string().min(1),
   industry: IndustryEnum.optional(),
 });
-export const generateEmail = createServerFn({ method: "POST" }).middleware([aiRateLimitMiddleware])
+export const generateEmail = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => EmailInput.parse(input))
   .handler(async ({ data }) => {
     const gateway = getGateway();
@@ -64,7 +63,7 @@ Kind regards,
 
 // ---------- Meeting ----------
 const MeetingInput = z.object({ notes: z.string().min(20), industry: IndustryEnum.optional() });
-export const summarizeMeeting = createServerFn({ method: "POST" }).middleware([aiRateLimitMiddleware])
+export const summarizeMeeting = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => MeetingInput.parse(input))
   .handler(async ({ data }) => {
     const gateway = getGateway();
@@ -85,7 +84,7 @@ const PlannerInput = z.object({
   tasks: z.string().min(5),
   industry: IndustryEnum.optional(),
 });
-export const planSchedule = createServerFn({ method: "POST" }).middleware([aiRateLimitMiddleware])
+export const planSchedule = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => PlannerInput.parse(input))
   .handler(async ({ data }) => {
     const gateway = getGateway();
@@ -102,7 +101,7 @@ export const planSchedule = createServerFn({ method: "POST" }).middleware([aiRat
 
 // ---------- Research ----------
 const ResearchInput = z.object({ topic: z.string().min(3), industry: IndustryEnum.optional() });
-export const runResearch = createServerFn({ method: "POST" }).middleware([aiRateLimitMiddleware])
+export const runResearch = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => ResearchInput.parse(input))
   .handler(async ({ data }) => {
     const gateway = getGateway();
@@ -123,7 +122,7 @@ const WorkflowInput = z.object({
   recipient: z.string().min(1).default("the meeting attendees"),
   industry: IndustryEnum.optional(),
 });
-export const runMeetingWorkflow = createServerFn({ method: "POST" }).middleware([aiRateLimitMiddleware])
+export const runMeetingWorkflow = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => WorkflowInput.parse(input))
   .handler(async ({ data }) => {
     const gateway = getGateway();
@@ -149,7 +148,7 @@ const InsightsInput = z.object({
   pendingEmails: z.number().int().min(0),
   industry: IndustryEnum.optional(),
 });
-export const getProductivityInsights = createServerFn({ method: "POST" }).middleware([aiRateLimitMiddleware])
+export const getProductivityInsights = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => InsightsInput.parse(input))
   .handler(async ({ data }) => {
     const gateway = getGateway();
