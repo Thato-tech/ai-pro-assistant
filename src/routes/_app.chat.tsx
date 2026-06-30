@@ -17,6 +17,7 @@ import {
 } from "@/components/ai-elements/prompt-input";
 import { Shimmer } from "@/components/ai-elements/shimmer";
 import { PageHeader } from "@/components/tool-result";
+import { useIndustry } from "@/lib/industry";
 
 type Search = { q?: string };
 
@@ -40,7 +41,11 @@ export const Route = createFileRoute("/_app/chat")({
 
 function ChatPage() {
   const { q } = Route.useSearch();
-  const transport = useMemo(() => new DefaultChatTransport({ api: "/api/chat" }), []);
+  const { industry } = useIndustry();
+  const transport = useMemo(
+    () => new DefaultChatTransport({ api: "/api/chat", body: { industry } }),
+    [industry],
+  );
   const { messages, sendMessage, status } = useChat({
     transport,
     onError: (e) => console.error(e),
